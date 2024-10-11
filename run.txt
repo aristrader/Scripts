@@ -1,0 +1,13 @@
+activate the virtual env ->
+    source myenv/bin/activate
+
+run the file using ->
+    python3 file_name.py
+
+if not able to find the venv then ->
+    python3 -m venv myenv
+
+
+Runnning the python application ->
+Go into the CollegeResultsApplication
+python manage.py runserver

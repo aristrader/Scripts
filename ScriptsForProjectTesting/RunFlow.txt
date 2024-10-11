@@ -1,0 +1,16 @@
+RUN FLOW FOR FINAL RESULTS ->
+1. Get the enrollment list from college
+2. Run the subject grouping script to make sure there are no typo's in the subject choice. (Script -> DifferentSubjectAndCount.py)
+3. Make sure we have the college in our db.
+4. Make sure the course_details is populated for that college. (Course and sem details exist)
+5. Run the script to add all the student details in the database. (script -> UploadStudentDetailsInDB.py)
+6. Run the script to add all the subject details in the database. (script -> UploadSubjectDetailsInDB.py)
+7. Run the script to enroll all the student and subject in the database. (script -> Enroll_Students.py)
+8. Run the script to create a list for student details and all there subject enrollments. (script -> Enrollment_Validation.py)
+9. Run the script to match the above list with the original list (script -> Enrollment_Matching.py)
+10. Run the script to create excels for each subject enrollment. (script -> EachSubjectEnrollmentListMaker.py)
+11. Run the script to create dummy marks. (script -> RandomMarksGenerator.py & RandomMarksGeneratorForAllInOne.py)
+12. Run the script to populate the marks in the database. (script -> AddMarksToEnrollment.py & AddMarksToEnrollmentForList.py)
+13. Run the script to match the marks entry in the enrollment with the marks entry in the excel. (VerifyAllMarksListWithDBEntries.py)
+14. Run the script to get the marks in the linear format. (script -> FinalResultGenerationLinear.py)
+15. Run individual scripts to get the results according to the college needs.
