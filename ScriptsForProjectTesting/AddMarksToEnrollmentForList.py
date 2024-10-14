@@ -1,3 +1,16 @@
+'''
+Script: Enrollment Update Marks List
+
+Description:
+------------
+This script reads student marks from specified Excel files and updates them using an API endpoint. 
+
+Steps:
+------
+1. Define a list of Excel file paths that contain student marks to be updated.
+
+'''
+
 import pandas as pd
 import requests
 import logging
@@ -49,9 +62,26 @@ for file_path in file_paths:
         for index, row in df.iterrows():
             student_id = row['student_id']
             subject_id = row['subject_id']
-            main_marks = row['main_marks'] if pd.notna(row['main_marks']) else None  # Set to None if empty
-            cce = row['cce'] if pd.notna(row['cce']) else None  # Set to None if empty
-            practical_marks = row['practical_marks'] if pd.notna(row['practical_marks']) else None  # Set to None if empty
+            
+            def process_marks(value):
+                """Handles None, numeric values as strings, and alphabetic strings."""
+                if pd.isna(value):
+                    return None  # Handle None/NaN values
+                if isinstance(value, str):
+                    if value.isdigit():  # Check if the string is numeric (e.g., "56")
+                        return int(value)
+                    try:
+                        return float(value)  # Handle float strings (e.g., "56.5")
+                    except ValueError:
+                        return value  # Handle alphabetic strings (e.g., "AB")
+                elif isinstance(value, (int, float)):
+                    return int(value) if value.is_integer() else value  # Handle numeric values
+                return value
+
+            # Process each mark type (main_marks, cce, practical_marks) with the helper function
+            main_marks = process_marks(row['main_marks'])
+            cce = process_marks(row['cce'])
+            practical_marks = process_marks(row['practical_marks'])
 
             # Prepare the payload for the API call
             payload = {

@@ -1,7 +1,22 @@
+'''
+Script: Enrollment Check Marks List
+
+Description:
+------------
+This script reads student marks from specified Excel files and verifies them by fetching corresponding data from an API. 
+It logs any discrepancies between the marks in the Excel files and those retrieved from the API.
+
+Steps:
+------
+1. Define a list of Excel file paths that contain student marks to be checked.
+
+'''
+
 import pandas as pd
 import requests
 import logging
 import os
+import time
 
 # Set up logging
 log_file_path = '/Users/swapnilagarwal/Visual_Studio_Projects/Results/TestingExcels/enrollment_check_marks_list.log'
@@ -74,6 +89,11 @@ for file_path in file_paths:
                     excel_main_marks = row['main_marks'] if pd.notna(row['main_marks']) else None
                     excel_cce = row['cce'] if pd.notna(row['cce']) else None
                     excel_practical_marks = row['practical_marks'] if pd.notna(row['practical_marks']) else None
+                    
+                    # Convert Excel marks to strings
+                    excel_main_marks = str(excel_main_marks) if excel_main_marks is not None else None
+                    excel_cce = str(excel_cce) if excel_cce is not None else None
+                    excel_practical_marks = str(excel_practical_marks) if excel_practical_marks is not None else None
 
                     # Compare with the Excel values
                     if (fetched_main_marks != excel_main_marks or 
@@ -82,6 +102,8 @@ for file_path in file_paths:
                         logging.error(f"Mismatch for student ID {student_id}, subject ID {subject_id}: "
                                         f"Excel (main: {excel_main_marks}, cce: {excel_cce}, practical: {excel_practical_marks}) "
                                         f"vs API (main: {fetched_main_marks}, cce: {fetched_cce}, practical: {fetched_practical_marks})")
+                    else :
+                        logging.info("data match for student ID {student_id}, subject ID {subject_id} ")
 
                 else:
                     logging.error(f"No data found for student ID {student_id}, subject ID {subject_id}")

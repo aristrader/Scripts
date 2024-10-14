@@ -1,8 +1,17 @@
-# Improvements -> improve the exception handling for more detail analysis
-# Error cases -> validation failure on request body,
-#         duplicate roll no or enrollment no, or unknown exception occurs
+"""
+Script: Student Data Uploader
 
-# Total steps 3
+Description:
+------------
+This script reads student data from an Excel file and uploads it to the database
+
+Steps:
+------
+1. Replace with the actual courseDetailsId (courseDetailId).
+2. Define the file path for the student data Excel file (file_path).
+3. Ensure the column names in the Excel file match the expected format in the script.
+
+"""
 
 import pandas as pd
 import requests
@@ -10,7 +19,7 @@ import json
 import logging
 
 # Step 1 -> Replace this with actual courseDetailsId
-courseDetailId = 15
+courseDetailId = 1
 
 # Step 2 -> Update with your file path for the student data
 file_path = '/Users/swapnilagarwal/Visual_Studio_Projects/Results/TestingExcels/student_data.xlsx'

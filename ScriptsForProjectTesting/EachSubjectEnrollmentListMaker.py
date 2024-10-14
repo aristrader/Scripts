@@ -1,8 +1,17 @@
-# Improvements -> improve the exception handling for more detail analysis
-# Error cases -> validation failure on request body,
-#         duplicate roll no or enrollment no, or unknown exception occurs
+"""
+Script: Subject Enrollment List Generator
 
-# Total steps 1
+Description:
+------------
+This script fetches subject-wise enrollment data from an API, processes the data, and saves it to individual Excel files for each subject option. 
+These are the lists that are required to be sent to teachers.
+
+Steps:
+------
+1. Define the course details ID (`course_details_id`) to fetch subjects and enrollments.
+
+"""
+
 
 import os
 import pandas as pd
@@ -45,7 +54,7 @@ GET_STUDENT_URL = f"{BASE_URL}/students/get/id/{{student_id}}"
 output_directory = '/Users/swapnilagarwal/Visual_Studio_Projects/Results/TestingExcels/ListsSubjectWise'
 
 # Step 1: Replace with actual course details ID
-course_details_id = 15
+course_details_id = 1
 
 # Fetch all subjects
 try:

@@ -1,16 +1,25 @@
-# Improvements -> improve the exception handling for more detail analysis
-# Error cases -> validation failure on request body,
-#         duplicate roll no or enrollment no, or unknown exception occurs
+"""
+Script: Subject Data Uploader
 
-# Total steps 3
+Description:
+------------
+This script reads student subject data from an Excel file and uploads unique subjects to a specified API.
+
+Steps:
+------
+1. Replace with the actual courseDetailsId (course_details_id).
+2. Define the file path for the student and subject data (file_path).
+3. Ensure the subject type columns match the ones in the Excel file.
+
+"""
+
 
 import pandas as pd
 import logging
 import requests
 
 # Step 1 -> Replace this with actual courseDetailsId
-course_details_id = 15
-max_credits_subject = 4  # Placeholder value, replace with actual max credits (This we need to remove the constraint in the application)
+course_details_id = 1
 
 # Step 2: Update with your file path for the student and subject data
 file_path = '/Users/swapnilagarwal/Visual_Studio_Projects/Results/TestingExcels/student_data.xlsx'
@@ -30,8 +39,7 @@ def upload_subject(subject_type, subject_name):
     subject_data = {
         "courseDetailsId": course_details_id,
         "subjectType": subject_type,
-        "optionsName": subject_name,
-        "maxCreditsSubject": max_credits_subject
+        "optionsName": subject_name
     }
 
     try:

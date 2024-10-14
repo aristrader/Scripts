@@ -1,8 +1,23 @@
+"""
+Script: Student Data Generator
+
+Description:
+------------
+This script generates random student data for a specified number of rows (default is 25).
+
+Steps:
+------
+1. Define the number of rows you want to generate (num_rows).
+2. Define the type of subject's you want in your excel. (row generating function)
+3. Define the path where you want to save the excel.
+
+"""
+
 import pandas as pd
 import random
 
-# Define the number of rows you want
-num_rows = 100  # You can change this value to 200, 1000, etc.
+# Step 1 : Define the number of rows you want
+num_rows = 25  # You can change this value to 200, 1000, etc.
 
 # Sample data for names (400 first names, 200 last names)
 first_names = [
@@ -102,7 +117,7 @@ def generate_roll_no():
 def generate_enrollment_no():
     return random.randint(1000000, 9999999)
 
-# Generate the data
+# Step 2 : Define the type of subject's you want
 data = []
 for i in range(1, num_rows + 1):
     row = {
@@ -125,7 +140,7 @@ for i in range(1, num_rows + 1):
 # Convert to pandas DataFrame
 df = pd.DataFrame(data)
 
-# Save to Excel
+# Step 3 : Give the path where you want to save the excel.
 output_file = '/Users/swapnilagarwal/Visual_Studio_Projects/Results/TestingExcels/student_data.xlsx'
 df.to_excel(output_file, index=False)
 

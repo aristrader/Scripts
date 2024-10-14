@@ -1,3 +1,22 @@
+"""
+Script: Random Marks Generator
+
+Description:
+------------
+This script populates student data in specified Excel files with random marks for main marks, CCE and practical marks. 
+The results are saved to new Excel files with a suffix indicating the marks have been updated. Any errors during processing are logged for review.
+
+Steps:
+------
+1. Define a list of Excel file paths that contain student enrollment data.
+3. Create a function to generate random marks for each student:
+   - `main_marks`: Random value between 0 and 70, or "AB", or empty (1 in 10 chance for "AB" and 1 in 10 chance for empty).
+   - `cce`: Random value between 0 and 30, or "AB", or empty (1 in 10 chance for "AB" and 1 in 10 chance for empty).
+   - `practical_marks`: Random value between 0 and 100, or "AB", or empty (1 in 10 chance for "AB" and 1 in 10 chance for empty).
+
+"""
+
+
 import pandas as pd
 import random
 import os
@@ -38,12 +57,31 @@ file_paths = [
     '/Users/swapnilagarwal/Visual_Studio_Projects/Results/TestingExcels/ListsSubjectWise/voc/Retail Management.xlsx'
 ]
 
-# Populate random marks for each student
 def generate_random_marks(row):
-    # Generate random marks for main_marks, cce, and practical_marks
-    row['main_marks'] = random.randint(0, 70)  # Random value between 0 and 70
-    row['cce'] = random.randint(0, 30)         # Random value between 0 and 30
-    row['practical_marks'] = random.randint(0, 100)  # Random value between 0 and 100
+    # Define the ranges for the marks
+    main_marks_range = (0, 70)
+    cce_range = (0, 30)
+    practical_marks_range = (0, 100)
+
+    # Function to generate a random mark or special entry
+    def random_marks_with_special_entries(range_tuple):
+        # Generate a random number
+        random_number = random.randint(*range_tuple)
+        
+        # Use a weighted choice to determine the output
+        choice = random.choices(
+            [random_number, 'AB', ''],  # Choices
+            weights=[8, 1, 1],          # Probabilities: 8/10 for number, 1/10 for AB, 1/10 for empty
+            k=1                         # Number of choices to return
+        )
+        
+        return choice[0]
+
+    # Apply the function to each marks field
+    row['main_marks'] = random_marks_with_special_entries(main_marks_range)
+    row['cce'] = random_marks_with_special_entries(cce_range)
+    row['practical_marks'] = random_marks_with_special_entries(practical_marks_range)
+
     return row
 
 # Process each file

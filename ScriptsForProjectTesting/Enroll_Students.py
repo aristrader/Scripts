@@ -1,11 +1,18 @@
-# Improvements -> improve the exception handling for more detail analysis
-# Error cases -> validation failure on request body,
-#         duplicate roll no or enrollment no, or unknown exception occurs
+"""
+Script: Student Subject Enrollment
 
-# When the data already exists then that is not an error in the enrollment script. Remove it. 
-# (Scenario -> out of 100 enrollment 1 fail, you can run all 100 and you will get 99 error which is a clutter)
+Description:
+------------
+This script automates enrolling students into their respective subjects based on data from an Excel file.
 
-# Total steps 4
+Steps:
+------
+1. Update the file path for the student data (file_path).
+2. Ensure the correct courseDetailsId are set.
+3. Define the subject type columns in the Excel file.
+
+"""
+
 
 import pandas as pd
 import logging
@@ -25,8 +32,8 @@ GET_STUDENTS_URL = f"{BASE_URL}/students/getByCourseDetailsId/{{course_details_i
 GET_SUBJECTS_URL = f"{BASE_URL}/subject-details/course/{{course_details_id}}"
 ENROLL_URL = f"{BASE_URL}/enrollment-and-marks/add"
 
-# Step 3: Replace with actual course details ID
-course_details_id = 15
+# Step 2: Replace with actual course details ID
+course_details_id = 1
 
 # Fetch all students and subjects by course_details_id
 try:
@@ -72,7 +79,7 @@ for index, row in df.iterrows():
         if not student_id:
             raise ValueError(f"Student not found for roll no: {roll_no} or enrollment no: {enrollment_no}")
 
-        # Step 4 : Set the appropriate subject type from the column names in excel
+        # Step 3 : Set the appropriate subject type from the column names in excel
         subject_types = ['foundation_course', 'major_1', 'major_2', 'minor', 'open', 'voc', "project/internship"]
         
         for subject_type in subject_types:

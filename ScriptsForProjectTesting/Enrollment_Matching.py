@@ -1,6 +1,17 @@
-# Improvements -> 
+"""
+Script: Student Data Comparison
 
-# Total steps 4
+Description:
+------------
+This script compares student data from two Excel sheets and logs the differences, including missing, mismatched, or extra entries.
+
+Steps:
+------
+1. Define the file paths for both Excel sheets (sheet1_path and sheet2_path).
+2. Define the column on which to search ('roll no') and match data between both sheets.
+3. Define the columns to be compared between the sheets (columns_to_compare).
+
+"""
 
 import pandas as pd
 
@@ -52,7 +63,7 @@ for roll_no in sheet2.index:
     if roll_no not in sheet1.index:
         extra_in_sheet2.append(f"Row with roll no {roll_no} is extra in Sheet 2.")
 
-# Step 4: Log the results
+# Log the results
 with open('/Users/swapnilagarwal/Visual_Studio_Projects/Results/TestingExcels/mismatch_log.txt', 'w') as log_file:
     log_file.write("Missing rows in Sheet 2:\n")
     if missing_in_sheet2:
