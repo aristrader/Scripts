@@ -5,7 +5,7 @@ from openpyxl.styles import Alignment
 import time
 
 # Step 1 : replace with the actual course detail id
-course_details_id = 15
+course_details_id = 1
 
 # Set up logging
 log_file_path = '/Users/swapnilagarwal/Visual_Studio_Projects/Results/TestingExcels/LOGS_FINAL_RESULTS.log'
@@ -45,37 +45,82 @@ def fetch_subject_details(subject_details_id):
         logging.error(f"Failed to fetch subject details for subject ID {subject_details_id}: {str(e)}")
         return {}
 
-def calculate_total_marks(main_marks, cce_marks):
-    """Calculate total marks as main + CCE marks."""
-    if main_marks is None:
-        main_marks = 0
-    if cce_marks is None:
-        cce_marks = 0
-    return main_marks + cce_marks
 
-def calculate_grade(total_marks):
-    """Determine the grade and grade point based on total marks."""
-    if total_marks >= 90:
-        return "A+", 9
-    elif total_marks >= 80:
-        return "A", 8
-    elif total_marks >= 70:
-        return "B+", 7
-    elif total_marks >= 60:
-        return "B", 6
-    elif total_marks >= 50:
-        return "C", 5
-    elif total_marks >= 40:
-        return "P", 4
-    else:
+# NOTE : THE BELOW LOGIC WILL FAIL WHEN THE NUMBERS CONTAIN A '.' IN THEM. IN THAT CASE YOU NEED CUSTOM FUNCTIONS
+def calculate_total_marks(main_marks, cce_marks):
+    """Calculate total marks based on conditions for main and CCE marks."""
+    # If both are None, return None
+    if main_marks is None and cce_marks is None:
+        return None
+    
+    # If both are alphabetic strings, return main_marks
+    if isinstance(main_marks, str) and main_marks.isalpha() and isinstance(cce_marks, str) and cce_marks.isalpha():
+        return main_marks
+
+    # If one is an alphabetic string and the other is None, return the alphabetic string
+    if isinstance(main_marks, str) and main_marks.isalpha() and cce_marks is None:
+        return main_marks
+    if isinstance(cce_marks, str) and cce_marks.isalpha() and main_marks is None:
+        return cce_marks
+
+    # If one is numeric string and the other is None, return the numeric string
+    if main_marks is None and isinstance(cce_marks, str) and cce_marks.isdigit():
+        return cce_marks
+    if cce_marks is None and isinstance(main_marks, str) and main_marks.isdigit():
+        return main_marks
+
+    # If one is numeric string and the other is alphabetic string, return the numeric string
+    if isinstance(main_marks, str) and main_marks.isdigit() and isinstance(cce_marks, str) and cce_marks.isalpha():
+        return main_marks
+    if isinstance(cce_marks, str) and cce_marks.isdigit() and isinstance(main_marks, str) and main_marks.isalpha():
+        return cce_marks
+
+    # If both are numeric strings, return the string sum of their numeric values
+    if isinstance(main_marks, str) and main_marks.isdigit() and \
+       isinstance(cce_marks, str) and cce_marks.isdigit():
+        return str(int(main_marks) + int(cce_marks))
+
+    return None  # Default return for any unhandled case
+
+
+def calculate_grade_and_grade_points(total_marks):
+    """Determine the grade based on the conditions for total marks."""
+    # If total is None, return None and grade point as 0
+    if total_marks is None:
         return "F", 0
+
+    # If total is an alphabetic string, return the same string and grade point as 0
+    if isinstance(total_marks, str) and total_marks.isalpha():
+        return total_marks, 0
+
+    # If total is a numeric string, apply grading logic
+    if isinstance(total_marks, str) and total_marks.isdigit():
+        total_marks = int(total_marks)  # Convert to integer for grading
+        if total_marks >= 90:
+            return "A+", 9  # Highest grade
+        elif total_marks >= 80:
+            return "A", 8
+        elif total_marks >= 70:
+            return "B+", 7
+        elif total_marks >= 60:
+            return "B", 6
+        elif total_marks >= 50:
+            return "C", 5
+        elif total_marks >= 40:
+            return "P", 4
+        else:
+            return "F", 0  # Fail grade
+
+    return None  # Default return for any unhandled case
 
 def calculate_earned_credits(grade, max_credits):
     """Determine earned credits based on the grade."""
-    if grade != "F":
-        return max_credits
+    # Check if the grade is one of the accepted grades (A+, A, B+, B, C, P)
+    if grade in ['A+', 'A', 'B+', 'B', 'C', 'P']:
+        return max_credits if max_credits is not None else 0  # Return max credits for valid grades
     else:
-        return 0
+        return 0  # Return 0 for all other cases including F, None, or invalid strings
+
 
 def calculate_credit_points(earned_credits, grade_points):
     """Calculate the credit points as earned credits * grade points."""
@@ -141,12 +186,12 @@ def process_course_results(course_details_id):
             total_marks = calculate_total_marks(main_marks, cce_marks)
             
             max_credits = subject['maxCreditsSubject']
-            grade, grade_points = calculate_grade(total_marks)
+            grade, grade_points = calculate_grade_and_grade_points(total_marks)
             earned_credits = calculate_earned_credits(grade, max_credits)
             credit_points = calculate_credit_points(earned_credits, grade_points)
 
             # Update totals
-            total_max_credits += max_credits
+            total_max_credits += max_credits if max_credits is not None else 0
             total_earned_credits += earned_credits
             total_credit_points += credit_points
             subject_grades.append((grade, grade_points))
@@ -176,9 +221,9 @@ def process_course_results(course_details_id):
                     "cce_marks": None,  # No CCE for practical
                     "total_marks": practical_total_marks,
                     "max_credits": max_credits,  # Assuming same max credits
-                    "grade": calculate_grade(practical_total_marks)[0],  # Get only grade
-                    "grade_points": calculate_grade(practical_total_marks)[1],  # Get only grade points
-                    "earned_credits": calculate_earned_credits(calculate_grade(practical_total_marks)[0], max_credits),
+                    "grade": calculate_grade_and_grade_points(practical_total_marks)[0],  # Get only grade
+                    "grade_points": calculate_grade_and_grade_points(practical_total_marks)[1],  # Get only grade points
+                    "earned_credits": calculate_earned_credits(calculate_grade_and_grade_points(practical_total_marks)[0], max_credits),
                     "credit_points": calculate_credit_points(earned_credits, grade_points)
                 }
             else:

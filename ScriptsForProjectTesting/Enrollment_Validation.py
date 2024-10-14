@@ -1,11 +1,19 @@
-# Improvements -> improve the exception handling for more detail analysis
-# Error cases -> validation failure on request body,
-#         duplicate roll no or enrollment no, or unknown exception occurs
+"""
+Script: Student Enrollment Verification Report
 
-# When the data already exists then that is not an error in the enrollment script. Remove it. 
-# (Scenario -> out of 100 enrollment 1 fail, you can run all 100 and you will get 99 error which is a clutter)
+Description:
+------------
+This script generates an Excel report that verifies student enrollments by fetching data from the API and mapping it to subject types.
 
-# Total steps 4
+Steps:
+------
+1. Replace with the actual course details ID (course_details_id).
+2. Initialize the subject type columns based on your data structure.
+3. Ensure subject types are mapped correctly (case-sensitive).
+4. Update the path where you want to save the Excel file (output_file_path).
+
+"""
+
 
 import pandas as pd
 import requests
@@ -17,7 +25,7 @@ GET_SUBJECTS_URL = f"{BASE_URL}/subject-details/course/{{course_details_id}}"
 GET_ENROLLMENTS_URL = f"{BASE_URL}/enrollment-and-marks/getByStudentId/{{student_id}}"
 
 # Step 1: Replace with actual course details ID
-course_details_id = 15
+course_details_id = 1
 
 # Fetch students
 students_response = requests.get(GET_STUDENTS_URL.format(course_details_id=course_details_id))

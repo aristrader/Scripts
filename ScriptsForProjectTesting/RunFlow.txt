@@ -1,5 +1,5 @@
 RUN FLOW FOR FINAL RESULTS ->
-1. Get the enrollment list from college
+1. Get the enrollment list from college (for now randomdatagenerator.py)
 2. Run the subject grouping script to make sure there are no typo's in the subject choice. (Script -> DifferentSubjectAndCount.py)
 3. Make sure we have the college in our db.
 4. Make sure the course_details is populated for that college. (Course and sem details exist)
