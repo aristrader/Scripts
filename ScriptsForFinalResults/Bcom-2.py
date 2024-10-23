@@ -3,8 +3,8 @@ import xlwt
 from xlwt import Workbook
 
 # Load the existing Excel file
-input_file = '/Users/swapnilagarwal/Visual_Studio_Projects/Excel/SUNNY.BCOM2.UNIV.xls'  # Replace with your actual file path
-output_file = '/Users/swapnilagarwal/Visual_Studio_Projects/Excel/bcom2results.xls'  # Replace with your desired output file path
+input_file = '/Users/swapnilagarwal/Visual_Studio_Projects/Excel/SUNNY.BCOM1.UNIV.xls'  # Replace with your actual file path
+output_file = '/Users/swapnilagarwal/Visual_Studio_Projects/Excel/resultstemp/bcomresults.xls'  # Replace with your desired output file path
 
 # Read the data from the first sheet of the Excel file
 df = pd.read_excel(input_file, engine='xlrd')
@@ -128,7 +128,7 @@ for index, row in df.iterrows():
         # Row 2
         [
             # _, _, Father_name, Course1, main,
-            '', '',row.iloc[columns['Father_Name']], 'I (A) HINDI LANGUAGE & CULTURE', '', row.iloc[columns['Foundation_Course_Subject_I_A_Marks']],
+            '', '',row.iloc[columns['Father_Name']], 'I (A) LANGUAGE AND CULTURE', '', row.iloc[columns['Foundation_Course_Subject_I_A_Marks']],
             #  cce, obt,
             row.iloc[columns['Foundation_Course_Subject_I_B_Marks']], row.iloc[columns['Foundation_Course_Subject_I_Total_Marks']],
             # max_credits, letter_grade,
@@ -141,12 +141,12 @@ for index, row in df.iterrows():
         # Row 3
         [
             # _, _, Mother_name, Course2,
-            '', '',row.iloc[columns['Mother_Name']], 'I (B) ENG.LANGUAGE & IND.CULTURE', '', '', '', '', '', '', '', ''
+            '', '',row.iloc[columns['Mother_Name']], 'I (B) ENGLISH LANGUAGE AND INDIAN', '', '', '', '', '', '', '', ''
         ],
         # Row 4
         [
             # _, _, _, Course3, main,
-            '', '', '', 'II (A) WOMEN EMPOWERMENT', '', row.iloc[columns['Foundation_Course_Subject_II_A_Marks']],
+            '', '', '', 'II (A) ENVIRONMENTAL STUDIES', '', row.iloc[columns['Foundation_Course_Subject_II_A_Marks']],
             #  cce, obt,
             row.iloc[columns['Foundation_Course_Subject_II_B_Marks']], row.iloc[columns['Foundation_Course_Subject_II_Total_Marks']],
             # max_credits, letter_grade,
@@ -159,7 +159,7 @@ for index, row in df.iterrows():
         # Row 5
         [
             # _, _, _, Course4,
-            '', '', '', 'II (B) ENTER.DEVELOPEMNT', '', '', '', '', '', '', '', ''
+            '', '', '', 'II (B) YOGA AND MEDITATION', '', '', '', '', '', '', '', ''
         ],
         # Row 6
         [
@@ -268,7 +268,7 @@ for index, row in df.iterrows():
         # Row 14
         [
             # _, _, _, VOC_practical, main,
-            '', '', '', row.iloc[columns['VOC_Practical']], '', row.iloc[columns['VOC_Practical_Total_marks']],
+            '', '', '', row.iloc[columns['VOC_Practical']], '', row.iloc[columns['VOC_Practical_Main_marks']],
             #  cce, obt,
             '', row.iloc[columns['VOC_Practical_Total_marks']],
             # max_credits, letter_grade,
