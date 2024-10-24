@@ -216,6 +216,17 @@ def process_course_results(course_details_id):
                 practical_marks = enrollment['practicalMarks']
                 practical_total_marks = calculate_total_marks(practical_marks, None)  # Assuming CCE is not applicable here
                 
+                max_credits = subject['maxCreditsPractical']
+                grade, grade_points = calculate_grade_and_grade_points(practical_total_marks)
+                earned_credits = calculate_earned_credits(grade, max_credits)
+                credit_points = calculate_credit_points(earned_credits, grade_points)
+                
+                # Update totals
+                total_max_credits += max_credits if max_credits is not None else 0
+                total_earned_credits += earned_credits
+                total_credit_points += credit_points
+                subject_grades.append((grade, grade_points))
+                
                 # Store practical results
                 subject_results[subject['subjectType'] + '_practical'] = {
                     "subject_name": "Practical",
@@ -223,10 +234,10 @@ def process_course_results(course_details_id):
                     "cce_marks": None,  # No CCE for practical
                     "total_marks": practical_total_marks,
                     "max_credits": max_credits,  # Assuming same max credits
-                    "grade": calculate_grade_and_grade_points(practical_total_marks)[0],  # Get only grade
-                    "grade_points": calculate_grade_and_grade_points(practical_total_marks)[1],  # Get only grade points
-                    "earned_credits": calculate_earned_credits(calculate_grade_and_grade_points(practical_total_marks)[0], max_credits),
-                    "credit_points": calculate_credit_points(earned_credits, grade_points)
+                    "grade": grade,
+                    "grade_points": grade_points,
+                    "earned_credits": earned_credits,
+                    "credit_points": credit_points
                 }
             else:
                 # Fill practical subject results with empty values
