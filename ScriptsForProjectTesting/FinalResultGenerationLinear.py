@@ -96,17 +96,19 @@ def calculate_grade_and_grade_points(total_marks):
     # If total is a numeric string, apply grading logic
     if isinstance(total_marks, str) and total_marks.isdigit():
         total_marks = int(total_marks)  # Convert to integer for grading
-        if total_marks >= 90:
+        if total_marks > 89:
+            return "O", 10
+        if total_marks > 79:
             return "A+", 9  # Highest grade
-        elif total_marks >= 80:
+        elif total_marks > 69:
             return "A", 8
-        elif total_marks >= 70:
+        elif total_marks > 59:
             return "B+", 7
-        elif total_marks >= 60:
+        elif total_marks > 49:
             return "B", 6
-        elif total_marks >= 50:
+        elif total_marks > 39:
             return "C", 5
-        elif total_marks >= 40:
+        elif total_marks > 34:
             return "P", 4
         else:
             return "F", 0  # Fail grade
@@ -116,7 +118,7 @@ def calculate_grade_and_grade_points(total_marks):
 def calculate_earned_credits(grade, max_credits):
     """Determine earned credits based on the grade."""
     # Check if the grade is one of the accepted grades (A+, A, B+, B, C, P)
-    if grade in ['A+', 'A', 'B+', 'B', 'C', 'P']:
+    if grade in ['O', 'A+', 'A', 'B+', 'B', 'C', 'P']:
         return max_credits if max_credits is not None else 0  # Return max credits for valid grades
     else:
         return 0  # Return 0 for all other cases including F, None, or invalid strings
